@@ -30,7 +30,6 @@ ALLOWED_HOSTS = []
 # Platform.sh settings.
 from platformshconfig import Config
 import os
-import platform
 
 config = Config()
 if config.is_valid_platform():
@@ -42,25 +41,25 @@ if config.is_valid_platform():
         SECRET_KEY = config.projectEntropy
 
     if not config.in_build():
-        db_settings = config.credentials('database')
-        DATABASES = {
-            'default' : {
-                'ENGINE' : 'django.db.backends.postresql',
-                'NAME' : db_settings['path'],
-                'USER' : db_settings['username'],
-                'PASSWORD' : db_settings['password'],
-                'HOST' : db_settings['host'],
-                'PORT' : db_settings['port'],
-            },
-        }
-
-if os.getenv('PLATFORM_APP_DIR'):
-    DATABASES = {
-        'default' : {
-            'ENGINE' : 'django.db.backends.sqlite3',
-            'NAME' : os.path.join('/tmp', 'db.sqlite3')
-        },
-    }
+        try: 
+            db_settings = config.credentials('database')
+            DATABASES = {
+                'default' : {
+                    'ENGINE' : 'django.db.backends.postgresql',
+                    'NAME' : db_settings['path'],
+                    'USER' : db_settings['username'],
+                    'PASSWORD' : db_settings['password'],
+                    'HOST' : db_settings['host'],
+                    'PORT' : db_settings['port'],
+                },
+            }
+        except Exception:
+            DATABASES = {
+                'default' : {
+                    'ENGINE' : 'django.db.backends.sqlite3',
+                    'NAME' : '/tmp/db.sqlite3',
+                },
+            }
 
 # My settings.
 LOGIN_REDIRECT_URL = 'learning_logs:topics'
