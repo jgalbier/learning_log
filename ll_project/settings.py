@@ -29,6 +29,8 @@ ALLOWED_HOSTS = []
 
 # Platform.sh settings.
 from platformshconfig import Config
+import os
+import platform
 
 config = Config()
 if config.is_valid_platform():
@@ -51,6 +53,14 @@ if config.is_valid_platform():
                 'PORT' : db_settings['port'],
             },
         }
+
+if os.getenv('PLATFORM_APP_DIR'):
+    DATABASES = {
+        'default' : {
+            'ENGINE' : 'django.db.backends.sqlite3',
+            'NAME' : os.path.join('/tmp', 'db.sqlite3')
+        },
+    }
 
 # My settings.
 LOGIN_REDIRECT_URL = 'learning_logs:topics'
