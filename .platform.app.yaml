@@ -1,5 +1,5 @@
 name: "learning_log"
-type: "python:3.12.6"
+type: "python:3.12"
 
 relationships:
     database: "db:postgresql"
