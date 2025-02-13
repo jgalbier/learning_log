@@ -73,6 +73,8 @@ if config.is_valid_platform():
                 }
             }
 
+    DEBUG = False
+
 # My settings.
 LOGIN_REDIRECT_URL = 'learning_logs:topics'
 LOGOUT_REDIRECT_URL = 'learning_logs:index'
