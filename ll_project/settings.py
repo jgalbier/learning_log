@@ -41,27 +41,26 @@ if config.is_valid_platform():
         SECRET_KEY = config.projectEntropy
 
     if not config.in_build():
-        # Inside your Platform.sh settings block
-    try:
-        db_settings = config.credentials('database')
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.postgresql',
-                'NAME': db_settings['path'],
-                'USER': db_settings['username'],
-                'PASSWORD': db_settings['password'],
-                'HOST': db_settings['host'],
-                'PORT': db_settings['port'],
+        try:
+            db_settings = config.credentials('database')
+            DATABASES = {
+                'default': {
+                    'ENGINE': 'django.db.backends.postgresql',
+                    'NAME': db_settings['path'],
+                    'USER': db_settings['username'],
+                    'PASSWORD': db_settings['password'],
+                    'HOST': db_settings['host'],
+                    'PORT': db_settings['port'],
+                }
             }
-        }
-    except Exception:
-        # Fallback to SQLite if database service is not configured
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': '/tmp/django/db.sqlite3',  # New specific path
+        except Exception:
+            # Fallback to SQLite if database service is not configured
+            DATABASES = {
+                'default': {
+                    'ENGINE': 'django.db.backends.sqlite3',
+                    'NAME': '/tmp/django/db.sqlite3',  # New specific path
+                }
             }
-        }
 
 # My settings.
 LOGIN_REDIRECT_URL = 'learning_logs:topics'
